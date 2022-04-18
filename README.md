@@ -1,1 +1,0 @@
-# Script-to-find-if-a-security-patch-is-installed-or-not-in-a-VCenterServer-of-DataCenter-1

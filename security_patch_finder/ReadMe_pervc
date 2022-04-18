@@ -1,0 +1,119 @@
+
+What the script does:
+=====================
+1. Connects to the VC server
+2. Creates a patch baseline with the bulletinID provided
+3. Gets all the Datacenter inventory object attaches the baseline to the datacenter one by one
+4. Tests the compliance of the objects under that datacenter against the baseline attached in the previous step
+5. Reads the compliance status from the datacenter against the baseline
+6. Detaches the baseline from the datacenter
+7. Once the tests are done, if the baseline is created by the script, the baseline will be deleted, else it will be retained
+8. Disconnect the session from vc
+
+Parameter Details:
+==================
+
+-VC_IP  		- IP/Hostname of the vCenter Server 
+-User   		- Username of the vCenter Server 
+-Password 	- Username of the vCenter Server
+-BaselineName    - Name to be given to the baseline. Can be any string, Example : security-baseline
+-BulletinID      - Bulletin ID to be verified, Example : ESXi650-201912104-SG
+
+
+Command to use the script:
+==========================
+
+vum_test_per_vc.ps1 -VC_IP <VC_IP> -User <User> -Password <Password> -BaselineName security-baseline -BulletinID ESXi650-201912104-SG
+
+
+
+Sample Execution output:
+========================
+
+Scope    ProxyPolicy     DefaultVIServerMode InvalidCertificateAction  DisplayD
+                                                                       eprecati
+                                                                       onWarnin
+                                                                       gs
+-----    -----------     ------------------- ------------------------  --------
+Session  UseSystemProxy  Multiple            Ignore                    True
+User                     Multiple            Ignore
+AllUsers
+
+IsConnected   : True
+Id            : /VIServer=vsphere.local\administrator@10.147.18.240:443/
+ServiceUri    : https://x.x.x.x/sdk
+SessionSecret : "17d238ec0ebb67f40f834cdbeeb459e09744b21e"
+Name          : x.x.x.x
+Port          : 443
+SessionId     : "17d238ec0ebb67f40f834cdbeeb459e09744b21e"
+User          : VSPHERE.LOCAL\Administrator
+Uid           : /VIServer=vsphere.local\administrator@10.147.18.240:443/
+Version       : 6.5.0
+Build         : 17994927
+ProductLine   : vpx
+InstanceUuid  : x-x-x-x
+RefCount      : 1
+ExtensionData : VMware.Vim.ServiceInstance
+
+
+The baseline security-baseline exists. No need to create. Will proceed with attaching the baseline
+
+The datacenter names retrieved in the VC : x.x.x.x are 1-datacenter-7 . Proceeding with test compliance on each of these datacenters
+
+Picking up the dc 1-datacenter-7 from VC : x.x.x.x for the test
+
+Checking if the dc 1-datacenter-7 from VC : x.x.x.x has any hosts in it
+
+The datacenter is 1-datacenter-7 in the VC : x.x.x.x. It has hosts. Proceeding with test compliance
+
+The baseline security-baseline is attached. Proceeding with test compliance
+
+The test compliance worked. Will go ahead and get the status
+
+
+
+Baseline          Entity           Status
+--------          ------           ------
+security-baseline x.x.x.x Compliant
+
+
+
+Baseline          Entity        Status
+--------          ------        ------
+security-baseline x.x.x.x NotCompliant
+
+
+
+Baseline          Entity            Status
+--------          ------            ------
+security-baseline x.x.x.x NotCompliant
+
+
+
+Baseline          Entity              Status
+--------          ------              ------
+security-baseline x.x.x.x NotCompliant
+
+
+
+Baseline          Entity             Status
+--------          ------             ------
+security-baseline x.x.x.x NotCompliant
+
+
+
+There are a total of 5 hosts out of which 4 hosts are NotCompliant(host1_ip, host2_ip, host3_ip, host4_ip ,)
+
+
+
+The test is complete. Proceeding with detaching the baseline security-baseline from the datacenter 1-datacenter-7
+
+Successfuly detached the baseline security-baseline from the datacenter 1-datacenter-7
+
+ The baseline security-baseline was not created by this script, hence not deleting it
+
+ All in all , in the vc : x.x.x.x, there are a total of 4 non-compliant hosts. And they are (host1_ip, host2_ip, host3_ip, host4_ip ,)
+
+
+
+PS C:\>

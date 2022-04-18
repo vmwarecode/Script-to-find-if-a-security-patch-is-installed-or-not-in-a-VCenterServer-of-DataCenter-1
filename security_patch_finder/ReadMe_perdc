@@ -1,0 +1,93 @@
+
+What the script does:
+=====================
+1. Connects to the VC server
+2. Creates a patch baseline with the bulletinID provided
+3. Gets the Datacenter inventory object based on the input(Datacenter_name) provided by the user and attaches the baseline to that datacenter
+4. Tests the compliance of the objects under that datacenter against the baseline attached in the previous step
+5. Reads the compliance status from the datacenter against the baseline
+6. Detaches the baseline from the datacenter
+7. Once the tests are done, if the baseline is created by the script, the baseline will be deleted, else it will be retained
+8. Disconnect the session from VC
+
+Parameter Details:
+==================
+
+-VC_IP  		- IP/Hostname of the vCenter Server 
+-User   		- Username of the vCenter Server 
+-Password 	- Username of the vCenter Server
+-BaselineName    - Name to be given to the baseline. Can be any string, Example : security-baseline
+-Datacenter_name - Name of the datacenter where the baseline is to be attached for the check
+-BulletinID      - Bulletin ID to be verified, Example : ESXi650-201912104-SG
+
+
+Command to use the script:
+==========================
+
+vum_test_per_dc.ps1 -VC_IP <VC_IP> -User <User> -Password <Password> -BaselineName security-baseline -Datacenter_name <Datacenter_name> -BulletinID ESXi650-201912104-SG
+
+
+
+Sample Execution output:
+========================
+
+cmdlet vum_test_perdc.ps1 at command pipeline position 1
+Supply values for the following parameters:
+Datacenter_name: 1-datacenter-7
+
+Name                           Port  User
+----                           ----  ----
+x.x.x.x                 443   VSPHERE.LOCAL\Administrator
+
+The baseline security-baseline exists. No need to create. Will proceed with attaching the baseline
+
+The datacenter name is 1-datacenter-7 and it is present in the VC : x.x.x.x. Proceeding with test compliance
+
+The baseline security-baseline is attached. Proceeding with test compliance
+
+The test compliance worked. Will go ahead and get the status
+
+
+
+Baseline          Entity           Status
+--------          ------           ------
+security-baseline x.x.x.x Compliant
+
+
+
+Baseline          Entity                             Status
+--------          ------                             ------
+security-baseline x.x.x.x NotCompliant
+
+
+
+Baseline          Entity            Status
+--------          ------            ------
+security-baseline x.x.x.x NotCompliant
+
+
+
+Baseline          Entity              Status
+--------          ------              ------
+security-baseline x.x.x.x NotCompliant
+
+
+
+Baseline          Entity             Status
+--------          ------             ------
+security-baseline x.x.x.x NotCompliant
+
+
+
+The test is complete. Proceeding with detaching the baseline security-baseline from the datacenter 1-datacenter-7
+
+Successfuly detached the baseline security-baseline from the datacenter 1-datacenter-7
+
+ The baseline security-baseline was not created by this script, hence not deleting it
+
+ All in all , in the vc : x.x.x.x, Datacenter: 1-datacenter-7  there are a total of 4 non-compliant hosts. And they are (host1_ip, host2_ip, host3_ip, host4_ip)
+
+
+
+ Done with script execution, Disconnecting from VC: x.x.x.x
+PS C:\>
